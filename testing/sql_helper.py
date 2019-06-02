@@ -60,7 +60,7 @@ def delete_exam(conn, id):
     :param id: id of the task
     :return:
     """
-    sql = 'DELETE FROM tasks WHERE id=?'
+    sql = 'DELETE FROM exams WHERE id=?'
     cur = conn.cursor()
     cur.execute(sql, (id,))
 

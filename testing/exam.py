@@ -8,7 +8,7 @@ Date : Sat 01 Jun-06 2019 15:11:23
 from __future__ import print_function, unicode_literals
 from pprint import pprint
 from PyInquirer import style_from_dict, Token, prompt, Separator
-from examples import custom_style_2
+from examples import custom_style_2,custom_style_1
 # * imports for the PyInquirer
 
 # * 3rd Library Imports
@@ -171,19 +171,45 @@ def remove() :
     """ """
     print("remove")
 
-    #     # * Ask user fo the class code and the date of the exams
-    # questions = [
-    #     {
-    #         'type': 'input',
-    #         'name': 'id',
-    #         'message': 'Class Code :',
-    #     }
-    # ]
+    # Show the exams available
+    mode_run("Show")
 
-    # answers = prompt(questions, style=custom_style_2)
-    # classCode = answers['classCode']
+    # * Ask user fo the class code and the date of the exams
+    questions = [
+        {
+            'type': 'input',
+            'name': 'id',
+            'message': 'id :',
+        }
+    ]
 
-    # delete_exam()
+    answers = prompt(questions, style=custom_style_2)
+    id = answers['id']
+
+    # Confirmation question
+    confirmation = [
+        {
+            'type': 'confirm',
+            'message': 'Are you sure you want to remove exam ?',
+            'name': 'confirm',
+            'default': False,
+        }
+    ]
+
+    confirmation_answer = prompt(confirmation, style=custom_style_1)
+
+    if confirmation_answer['confirm'] == True :
+        # Connect to a database -> if does not exist -> create
+        conn = create_connection("exams_db.sqlite")
+
+        # Delete the exam with given id
+        delete_exam(conn, id)
+
+        # Saves the changes you made and quit
+        conn.commit()
+        conn.close()
+    else :
+        print("Operation Canceled.")
 
 def edit() :
     """ edit an exam that was already entered """
