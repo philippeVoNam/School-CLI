@@ -4,7 +4,6 @@ Date : Sat 01 Jun-06 2019 15:11:23
 """
 
 # * IMPORTS
-
 # * imports for the PyInquirer
 from __future__ import print_function, unicode_literals
 from pprint import pprint
@@ -19,11 +18,14 @@ import click
 import calendar 
 import datetime
 import sqlite3
+import sys
 from terminaltables import AsciiTable
+from datetime import date
+from dateutil.parser import parse
+from termcolor import colored
 
 # * USER IMPORTS
-
-from sql_helper import create_connection, create_exam, create_table
+from sql_helper import create_connection, create_exam, create_table, delete_exam
 
 # CODE 
 
@@ -61,11 +63,17 @@ def mode_run(mode) :
         'Show' : show,
         'Calendar' : calendar_,
         'Add'  : add,
-        'Remove' : remove
+        'Remove' : remove,
+        'Exit' : exit_
         }
 
     func = modes.get(mode)
     func()
+
+def exit_() :
+    """ Terminates the current School-CLI session """
+
+    sys.exit(0)
 
 def show() : 
     """ """
@@ -78,11 +86,12 @@ def show() :
     data = cur.fetchall()
 
     tableData = [
-    ['Class Code', 'Date']
+    ['id','Class Code','Type', 'Date', 'Days Left', 'Study Time']
     ]
 
-    for exams in data : 
-        tableData.append(exams)
+    for exam in data : 
+        
+        tableData.append(exam)
 
     table = AsciiTable(tableData)
     print (table.table)
@@ -111,21 +120,48 @@ def add() :
             'type': 'input',
             'name': 'date',
             'message': 'Date (y/m/d) :'
+        },        
+        {
+            'type': 'list',
+            'name': 'type',
+            'message': 'Type ?',
+            'choices': [
+                'Assignment',
+                'Lab Report',
+                'Midterm',
+                'Final Exam'
+                ]
         }
     ]
 
     answers = prompt(questions, style=custom_style_2)
     classCode = answers['classCode']
     date = answers['date']
+    type = answers['type']
 
+    # Find out what is the type and give it a color for it 
+    if type == "Assignment" :
+        type = colored(type,'white')
+    elif type == "Lab Report" :
+        type = colored(type,'green')
+    elif type == "Midterm" :
+        type = colored(type,'yellow')
+    elif type == "Final Exam" :
+        type = colored(type,'red')
+
+    # Find out how many days left and if less than 5 -> make it bright red
+    daysLeft = days_left(parse(date).date())
+    if daysLeft < 10 :
+        daysLeft = str(daysLeft)
+        daysLeft = colored(daysLeft,'white', 'on_red',attrs=['bold'])
 
     # * Storing the data
     # Connect to a database -> if does not exist -> create
     conn = create_connection("exams_db.sqlite")
 
     # Execution
-    create_table(conn, 'CREATE TABLE IF NOT EXISTS exams (classCode VARCHAR, date VARCHAR)')
-    create_exam(conn,classCode, date)
+    create_table(conn, 'CREATE TABLE IF NOT EXISTS exams (id INTEGER PRIMARY KEY, classCode VARCHAR, type VARCHAR, date VARCHAR, daysLeft VARCHAR, studyTime INTEGER)')
+    create_exam(conn,classCode, type, date, daysLeft, 1)
 
     # Saves the changes you made and quit
     conn.commit()
@@ -135,15 +171,64 @@ def remove() :
     """ """
     print("remove")
 
-    click.secho('Hello World!', fg='green')
-    click.secho('Some more text', bg='blue', fg='white')
-    click.secho('ATTENTION', blink=True, bold=True)
+    #     # * Ask user fo the class code and the date of the exams
+    # questions = [
+    #     {
+    #         'type': 'input',
+    #         'name': 'id',
+    #         'message': 'Class Code :',
+    #     }
+    # ]
 
+    # answers = prompt(questions, style=custom_style_2)
+    # classCode = answers['classCode']
+
+    # delete_exam()
+
+def edit() :
+    """ edit an exam that was already entered """
+    print("edit")
+
+# * Logic Functions
+def days_left(givenDate) :
+    " Returns the number of days between the current date aand the given date "
+
+    currentDate = datetime.datetime.now().date()
+    delta = givenDate - currentDate
+
+    return delta.days
+
+# * Main Function
 if __name__ == '__main__' : 
-    mode = main()
-    # print(type(mode))
-    # print("Done.")
+
+    questions = [
+    {
+        'type': 'list',
+        'name': 'mode',
+        'message': 'What do you want to do?',
+        'choices': [
+            Separator(),
+            'Show',
+            'Calendar',
+            Separator(),
+            'Add',
+            'Remove',
+            Separator(),
+            'Exit'
+            ]
+        },
+    ]
+
+    # ! Bad design for now -> intentional infinte loop ... 
+    while (True) :
+        answers = prompt(questions, style=custom_style_2)
+        mode_run(answers['mode'])
     
+# date = date(2019,5,20)
+# days_left(date)
 
+# date = parse('2018-06-29').date()
+# # print(datetime.date())  
+# print(days_left(date))
 
-
+# gin

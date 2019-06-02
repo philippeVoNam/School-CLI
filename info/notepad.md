@@ -131,3 +131,8 @@ CREATE TABLE experiments (
 Sat 01 Jun-06 2019 15:09:16
 
 - http://www.sqlitetutorial.net/sqlite-python/create-tables/
+
+---
+
+
+

@@ -40,29 +40,40 @@ def create_table(conn, create_table_sql):
 
 # Inserting data into Table
 
-def create_exam(conn, classCode, date):
+def create_exam(conn, classCode, type, date, daysLeft, studyTime):
     """
     Create a new exam into the exams table
     :param conn:
     :param exam:
     :return: 
     """
-    sql = ''' INSERT INTO exams(classCode,date)
-              VALUES(?,?) '''
+    sql = ''' INSERT INTO exams(classCode, type, date, daysLeft, studyTime)
+              VALUES(?,?,?,?,?) '''
     cur = conn.cursor()
-    cur.execute(sql, (classCode, date))
+    cur.execute(sql, (classCode, type, date, daysLeft, studyTime))
     return cur.lastrowid
 
+def delete_exam(conn, id):
+    """
+    Delete a task by task id
+    :param conn:  Connection to the SQLite database
+    :param id: id of the task
+    :return:
+    """
+    sql = 'DELETE FROM tasks WHERE id=?'
+    cur = conn.cursor()
+    cur.execute(sql, (id,))
 
-conn = create_connection("test_db.sqlite")
 
-create_table(conn, 'CREATE TABLE IF NOT EXISTS exams (classCode VARCHAR, date VARCHAR)')
+# conn = create_connection("test_db.sqlite")
 
-create_exam(conn,"COEN 346", "2019-05-31")
-create_exam(conn,"ELEC 312", "2019-06-01")
+# create_table(conn, 'CREATE TABLE IF NOT EXISTS exams (classCode VARCHAR, date VARCHAR)')
 
-cur = conn.cursor()
-cur.execute('SELECT * FROM exams')
-data = cur.fetchall()
+# create_exam(conn,"COEN 346", "2019-05-31")
+# create_exam(conn,"ELEC 312", "2019-06-01")
 
-print(data)
+# cur = conn.cursor()
+# cur.execute('SELECT * FROM exams')
+# data = cur.fetchall()
+
+# print(data)
