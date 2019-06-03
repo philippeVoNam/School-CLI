@@ -98,8 +98,6 @@ def show() :
     table = AsciiTable(tableData)
     print (table.table)
 
-    # print(data)
-
 def calendar_() : 
     """ prints out the calendar of the current year """
     print("calendar")
@@ -205,28 +203,72 @@ def edit() :
         }
     ]
 
-    confirmation_answer = prompt(confirmation, style=custom_style_1)
+    confirmationAnswer = prompt(confirmation, style=custom_style_1)
 
-    if confirmation_answer['confirm'] == True :
+    if confirmationAnswer['confirm'] == True :
         # Connect to a database -> if does not exist -> create
         conn = create_connection("exams_db.sqlite")
 
         # * Edit the exam with given id
-        # Get the information about the exam the user input
-        info = input_exam()
+        editQuestion = [
+            {
+                'type': 'list',
+                'name': 'item',
+                'message': 'Which item would you like to edit ?',
+                'choices': [
+                    'Class Code',
+                    'Type',
+                    'Date',
+                    'Quit'
+                    ]
+                },
+            ]       
 
-        classCode = info["classCode"]
-        type = info["type"]
-        date = info["date"]
-        daysLeft = info["daysLeft"]
-        studyTime = info["studyTime"]
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM exams WHERE id=?", (id,))
+        data = cur.fetchall()
 
-        # Update
-        update_exam(conn, id, classCode, type, date, daysLeft, studyTime)
+        # Saving the data for delivery
+        id = data[0][0]
+        classCode = data[0][1]
+        type = data[0][2]
+        date = data[0][3]
+        daysLeft = data[0][4]
+        studyTime = data[0][5]
 
-        # Saves the changes you made and quit
-        conn.commit()
-        conn.close()
+        # Editing the specific data the user wants to edit
+        quitFlag = False
+        while quitFlag != True :
+            editQuestionAnswer = prompt(editQuestion, style=custom_style_2)
+            
+            if editQuestionAnswer['item'] == 'Quit' :
+                quitFlag = True
+                
+                # Saves the changes you made and quit
+                conn.commit()
+                conn.close()
+                return
+
+            if editQuestionAnswer['item'] == 'Type' :
+                type = type_input()
+
+            elif editQuestionAnswer['item'] == 'Date' :
+                date = date_input()
+
+                # Find out how many days left and if less than 5 -> make it bright red
+                daysLeft = days_left(parse(date).date())
+                if daysLeft < 10 :
+                    daysLeft = str(daysLeft)
+                    daysLeft = colored(daysLeft,'white', 'on_red',attrs=['bold'])
+                else :
+                    daysLeft = str(daysLeft)
+
+            else :
+                classCode = classCode_input()
+
+            # Update
+            update_exam(conn, id, classCode, type, date, daysLeft, studyTime)
+
     else :
         print("Operation Canceled.")
 
@@ -234,52 +276,9 @@ def input_exam() :
     """ ask user for input on exam info """
 
     # * Ask user fo the class code and the date of the exams
-    questions = [
-        {
-            'type': 'input',
-            'name': 'classCode',
-            'message': 'Class Code :',
-        },    
-        {
-            'type': 'list',
-            'name': 'type',
-            'message': 'Type ?',
-            'choices': [
-                'Assignment',
-                'Lab Report',
-                'Midterm',
-                'Final Exam'
-                ]
-        }
-    ]
-
-    answers = prompt(questions, style=custom_style_2)
-    classCode = answers['classCode']
-    type = answers['type']
-
-    # Date Validation
-    dateQuestion = [
-            {
-                'type': 'input',
-                'name': 'date',
-                'message': 'Date (y/m/d) :'
-            }
-    ]
-    answersDate = prompt(dateQuestion, style=custom_style_2)
-    date = answersDate['date']
-    while date_validation(answersDate['date']) == False : 
-            answersDate = prompt(dateQuestion, style=custom_style_2)
-            date = answersDate['date']
-        
-    # Find out what is the type and give it a color for it 
-    if type == "Assignment" :
-        type = colored(type,'white')
-    elif type == "Lab Report" :
-        type = colored(type,'green')
-    elif type == "Midterm" :
-        type = colored(type,'yellow')
-    elif type == "Final Exam" :
-        type = colored(type,'red')
+    classCode = classCode_input()
+    date = date_input()
+    type = type_input()
 
     # Find out how many days left and if less than 5 -> make it bright red
     daysLeft = days_left(parse(date).date())
@@ -318,6 +317,75 @@ def date_validation(dateStr) :
         print(e)
 
     return False
+
+# * Helper Functions
+
+def date_input() :
+    """ ask the user for the date """
+    
+    # Date Validation
+    dateQuestion = [
+            {
+                'type': 'input',
+                'name': 'date',
+                'message': 'Date (y/m/d) :'
+            }
+    ]
+    answersDate = prompt(dateQuestion, style=custom_style_2)
+    date = answersDate['date']
+    while date_validation(answersDate['date']) == False : 
+            answersDate = prompt(dateQuestion, style=custom_style_2)
+            date = answersDate['date']
+
+    return date
+
+def type_input() :
+    """ ask the user for the type """
+    typeQuestion = [  
+        {
+            'type': 'list',
+            'name': 'type',
+            'message': 'Type ?',
+            'choices': [
+                'Assignment',
+                'Lab Report',
+                'Midterm',
+                'Final Exam'
+                ]
+        }
+    ]
+
+    typeQuestionAnswer = prompt(typeQuestion, style=custom_style_2)
+    type = typeQuestionAnswer['type']
+                    
+    # Find out what is the type and give it a color for it 
+    if type == "Assignment" :
+        type = colored(type,'white')
+    elif type == "Lab Report" :
+        type = colored(type,'green')
+    elif type == "Midterm" :
+        type = colored(type,'yellow')
+    elif type == "Final Exam" :
+        type = colored(type,'red')
+
+    return type
+
+def classCode_input() :
+    """ ask the user for the classCode """
+    
+    # * Ask user fo the class code and the date of the exams
+    classCodeQuestion = [
+        {
+            'type': 'input',
+            'name': 'classCode',
+            'message': 'Class Code :',
+        }
+    ]
+
+    classCodeQuestionAnswer = prompt(classCodeQuestion, style=custom_style_2)
+    classCode = classCodeQuestionAnswer['classCode']
+
+    return classCode 
 
 # * Main Function
 if __name__ == '__main__' : 

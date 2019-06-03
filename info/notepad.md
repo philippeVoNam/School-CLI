@@ -134,5 +134,35 @@ Sat 01 Jun-06 2019 15:09:16
 
 ---
 
+# @ Edit specific part of an exam and leave everything else alone
 
+- Edit
+- Ask uer what they want to edit
+- Ask if they are done with the edit
+- Have a done option 
+- While not done 
 
+- Pseudocode : 
+- quitFlag = false
+- while quitFlag != True :
+  - ans = ask_input
+  - if ans == quit :
+    - quitFlag = True
+    - break
+
+- ans = Ask_input()
+- returns the string of what they want to edit
+- based on that, we know which ones we want to keep intact
+- must retrieve everything else
+- cur.execute("SELECT * FROM exams WHERE id=?", (6,))
+- data = cur.fetchall()
+- print(data)
+- examInfo[ans] -> return the index
+   questions = [
+        {
+            'type': 'input',
+            'name': ans,
+            'message': ans + ":",
+        }
+    ]
+- data[index] = answer_questions
