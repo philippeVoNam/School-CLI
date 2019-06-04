@@ -9,5 +9,6 @@ Sat 01 Jun-06 2019 15:58:42
 * [X] ~~*Add colors to the table of exams*~~ [2019-06-01]
 * [X] ~~*Add date validator*~~ [2019-06-02]
 * [X] ~~*Edit an exam*~~ [2019-06-02] 
-* [ ] Edit specific attributes of the exam 
+* [X] ~~*Edit specific attributes of the exam*~~ [2019-06-02] 
 * [ ] Have animation like in pacific rim -> energy bar 
+* [ ] add the study time functionality ... -> guide in random/stopwatch.py

@@ -12,17 +12,20 @@ from examples import custom_style_2,custom_style_1
 # * imports for the PyInquirer
 
 # * 3rd Library Imports
-from pyfiglet import Figlet
-from pyfiglet import print_figlet
+from pyfiglet import Figlet, print_figlet, figlet_format
+from terminaltables import AsciiTable
 import click
 import calendar 
 import datetime
 import sqlite3
 import sys
-from terminaltables import AsciiTable
 from datetime import date
 from dateutil.parser import parse
-from termcolor import colored
+from termcolor import colored, cprint
+from colorama import init
+init(strip=not sys.stdout.isatty())
+from blessings import Terminal
+
 
 # * USER IMPORTS
 from sql_helper import create_connection, create_exam, create_table, delete_exam, update_exam
@@ -390,6 +393,10 @@ def classCode_input() :
 # * Main Function
 if __name__ == '__main__' : 
 
+    # Welcome Text
+    text="Are you ready for your exams ?"
+    cprint(figlet_format(text, font="small"), "green", attrs=['bold']) 
+
     questions = [
     {
         'type': 'list',
@@ -413,12 +420,3 @@ if __name__ == '__main__' :
     while (True) :
         answers = prompt(questions, style=custom_style_2)
         mode_run(answers['mode'])
-    
-# date = date(2019,5,20)
-# days_left(date)
-
-# date = parse('2018-06-29').date()
-# # print(datetime.date())  
-# print(days_left(date))
-
-# gin

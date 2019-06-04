@@ -166,3 +166,114 @@ Sat 01 Jun-06 2019 15:09:16
         }
     ]
 - data[index] = answer_questions
+
+# @ How to calculate the amount of time studied ?
+Sun 02 Jun-06 2019 22:19:58
+
+- idea :
+in the school app :
+
+- exam info
+- exam timing
+
+- exam timing : 
+  - checks the exams_db
+  - return a list of exams
+  - ask you which one you want to monitor
+  - -> gets the id so that it can modify the study time when finished
+  - starts a stopwatch -> you can cancel anytime using q ?
+  - stopped -> adds the time that it recorded to the amount of time it already has 
+
+---
+
+# @ Stopwatch -> register in table
+Tue 04 Jun-06 2019 18:52:52
+
+Flow :
+- Open app
+- Open exam section
+- Open stopwatch option
+- This will "show" the available exms
+- It will then ask for the id you want to record the study time. 
+- Then it will start the stopwatch -> possible animation 
+- User stops the study section 
+- Retrieve the study time of the id
+- Append the new time to the old time and register the result into the table
+
+TODO : 
+* [ ] multiple menu -> (exam , homework) 
+* [ ] make exam class -> might need a re-definition of how stuff is being sent to the sql_helper functions 
+* [ ] stopwatch option -> stopwatch function
+
+---
+
+# @ Exam as a class
+
+class Exam : 
+attributes :
+- Class Code
+- type
+- Date due
+- Study time accumulated 
+
+Why would we need an object here. 
+We would need, when we need to read in individually exams ... 
+So that it is easy to get its individual attributes
+
+--- 
+
+# Homework quick preview plan 
+Tue 04 Jun-06 2019 18:50:00
+
+• Exam 
+1. Name
+2. Date
+3. Location 
+
+Goal : to store homework exercises and general notes better. With tags !
+
+Written study notes.
+Then take picture of it. 
+Writing text to computer text
+Sorts it into the correct folder
+And puts tags on it for later search
+ing and documentation
+
+Homework exercises. 
+Tags. 
+Number the exercises. Detect that.
+
+Flow : 
+Take writing notes.
+Put tags.
+Upload to photos.
+Download to desktop.
+Open school CLI
+Go to Homework and Notes mode
+Go to add pictures
+Pass in the file path
+Store the file in correct directory given the tags analyzed.
+
+Have the outlines in the application. 
+Can open anytime in PDF 
+
+Homework class
+Easy.medium.hard.final exam level
+Progress bar percentage done
+Date
+Folder where it is. Image 
+Tags
+
+Use the expand tab of PyInquirer
+
+Make the app executable from CLI
+
+If OCR really does not work,
+Just write down the tags you think are appropriate. And then when you put in Computer, just write them down. 
+
+How to make TAGS with Sqlite
+
+Expands types of tags ???
+Create new tags
+
+---
