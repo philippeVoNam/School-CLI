@@ -305,12 +305,12 @@ class ExamController:
         # Show the exams available
         self.mode_run("Show")
 
-        # Ask the user for the exam they want to record the study time
+        # Ask the user for the exam they want to record tihe study time
         id = self.id_input()
 
         # Start the stopwatch        
         currentTime = stopwatch()
-        currentTime = datetime.timedelta(seconds=currentTime) # convert float to time obj
+        currentTime = datetime.timedelta(seconds=round(currentTime)) # convert float to time obj
         print(currentTime)
 
         # Retrieve the study time of the given id 
@@ -319,21 +319,24 @@ class ExamController:
         sql = ''' SELECT studyTime FROM exams WHERE id=? '''
         cur.execute(sql, (id))
         data = cur.fetchone()
-        print(data)
+
         # Constructing the datetime.time obj from string
         retrievedTime = datetime.datetime.strptime(data[0], '%H:%M:%S').time()
+        retrievedTime = datetime.timedelta(hours=retrievedTime.hour, minutes=retrievedTime.minute, seconds=retrievedTime.second) # converting the time to timedelta
+        
+        # Appending the time 
+        totalTime = str((currentTime + retrievedTime))
 
-        retrievedTime = datetime.timedelta(hours=retrievedTime.hour, minutes=retrievedTime.minute, seconds=retrievedTime.second)
-        totalTime = (currentTime + retrievedTime)
-        # print()
+        # Updating the database
+        sql = ''' UPDATE exams
+              SET 
+                    studyTime = ?
+              WHERE 
+                    id = ?'''
+        cur.execute(sql, (totalTime,id))
 
-        txt = str(totalTime)
-
-        # spilt string
-        x = txt.split(":")
-
-        print(x)
-
+        conn.commit()
+        conn.close()
 
     # * Logic Functions
     def days_left(self, givenDate) :
