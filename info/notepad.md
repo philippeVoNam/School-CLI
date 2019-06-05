@@ -201,7 +201,7 @@ Flow :
 - Append the new time to the old time and register the result into the table
 
 TODO : 
-* [ ] multiple menu -> (exam , homework) 
+* [X] ~~*multiple menu -> (exam , homework)*~~ [2019-06-04] 
 * [ ] make exam class -> might need a re-definition of how stuff is being sent to the sql_helper functions 
 * [ ] stopwatch option -> stopwatch function
 
