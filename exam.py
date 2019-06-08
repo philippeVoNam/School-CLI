@@ -322,7 +322,6 @@ def date_validation(dateStr) :
     return False
 
 # * Helper Functions
-
 def date_input() :
     """ ask the user for the date """
     

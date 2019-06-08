@@ -35,3 +35,9 @@ class Exam:
         self.date = date
         self.daysLeft = daysLeft
         self.studyTime = studyTime
+
+        # Default Attributes
+        self.headers = ['id','Class Code','Type', 'Date', 'Days Left', 'Study Time']
+        self.title = "Exams"
+        self.dbFile = "exams_db.sqlite"
+        self.tableName = "exams"

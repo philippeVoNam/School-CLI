@@ -317,7 +317,7 @@ class ExamController:
         conn = create_connection(self.database)
         cur = conn.cursor()
         sql = ''' SELECT studyTime FROM exams WHERE id=? '''
-        cur.execute(sql, (id))
+        cur.execute(sql, (id,))
         data = cur.fetchone()
 
         # Constructing the datetime.time obj from string

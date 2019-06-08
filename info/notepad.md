@@ -14,6 +14,9 @@ Tue 28 May-05 2019 09:32:54
 - taskwarrior API -> https://github.com/ralphbean/taskw
 - table in terminal -> https://github.com/Robpol86/terminaltables
 - SQLite -> database -> https://www.pythonforthelab.com/blog/storing-data-with-sqlite/
+- https://npyscreen.readthedocs.io/introduction.html **GOLD**
+
+# **They are called TUI Librairies (Textual User INterface)**
 
 ---
 
@@ -202,7 +205,7 @@ Flow :
 
 TODO : 
 * [X] ~~*multiple menu -> (exam , homework)*~~ [2019-06-04] 
-* [ ] make exam class -> might need a re-definition of how stuff is being sent to the sql_helper functions 
+* [X] ~~*make exam class -> might need a re-definition of how stuff is being sent to the sql_helper functions*~~ [2019-06-04] 
 * [ ] stopwatch option -> stopwatch function
 
 ---
@@ -277,3 +280,253 @@ Expands types of tags ???
 Create new tags
 
 ---
+
+# @ Homework Quick Preview Plan v.2
+
+Thu 06 Jun-06 2019 19:42:00
+
+Goal : Seperate every important components into classes :
+
+Main Classes : 
+• Exams
+• Assignments
+• Lab 
+• Homework 
+    - Easy - Medium - Hard
+    - Percentage done
+    - Folder where it is 
+    - Tags -> have the tags use the PyInquirer expands
+• Notes
+    - if OCR is too hard -> just write down the TAGS and then its easier to type it out
+• Outline
+    - can open with PDF
+• Slides
+    - can open with OKULAR to be able to make modifications (+ make a MarkDown file -> when we open it so that we can take notes also)
+    -  in the markdown file -> put some special TAGS where we can specify parts where I am stuck or soemthing
+    -  or have a issue.md , etc ... 
+
+- Every one of them should have a controller (takes care of the sqlite operations and other stuff)
+- Controller : 
+- sqlite maintenance
+- show()
+
+Special Controller : (they will be special controllers that will maitain a group of main classes)
+- DueController (handles everything that has a due date)
+
+- EACH SCHOOl CLASS -> has its own Folder it will contain everything :
+  - own databases
+  - own resources
+  - own text files 
+
+directory example : 
+
+- school :
+  - databases
+    - exam_db
+    - notes_db
+    - ...
+  - COEN 355
+    - outline.pdf
+    - db.sqlite (this database will contain the information about that class) -> have to make sure we have the same information for all the components
+    - Homeworks 
+      - files
+    - Assignments
+      - files
+    - Lab
+      - Lab Reports
+      - files
+    - Notes
+    - Slides
+
+Have to think out what each componenets kind of Attributes will have.
+
+Each Class :
+
+- info directory (todo.md issues.md)
+
+Exams :
+- name
+- classCode
+- dueDate
+- daysLeft
+- studyTime
+- description (what is on the exam)
+
+Assignments :
+- name
+- classCode
+- dueDate
+- daysLeft
+- instructionsFilePath / questionsFilePath
+- answersFilePath
+- percentageCompletion
+
+Lab Report : 
+- name
+- classCode
+- dueDate
+- daysLeft
+- description
+- instructionsFilePath / questionsFilePath
+- reportFilePath
+- percentageCompletion
+
+# --- # 
+
+Homework : 
+- name
+- classCode
+- dueDate
+- daysLeft
+- description
+- instructionsFilePath / questionsFilePath
+- reportFilePath
+- percentageCompletion
+- difficulty
+
+# --- # 
+
+Notes :
+- classCode
+- chapter
+- importance
+- notesFilePath
+- tags
+- description
+- percentageCompletion
+
+Outline :
+- classCode
+- filepath
+
+Slides : 
+- classCode
+- filepath
+- markdown file accompagny 
+
+--- 
+
+# @ How to start
+
+- Try to abstract the helper functions as much as possible 
+- For Example, the ExamContoller.py stuff can be done for the other deliverables ... 
+
+- Will need of SqLite handling - 
+- Making Directories
+- Asking Input 
+- Opening Files in a desired program depending on the file
+
+# @ Adding text or descriptions and stuff or opening text editors
+
+https://pypi.org/project/text-editor/
+
+```python
+import texteditor
+text = texteditor.open('This is the starting content')
+```
+
+---
+
+# @ Opening File Manager giving the directory
+
+``` python
+shell("ranger /home/namv/Pictures/Webcam")
+
+import os
+filepath = "\...\folder"
+os.system("ranger " + filepath)
+```
+--- 
+
+# @ Need to know what are the operations on each Components are needed : 
+
+## Common Things :
+
+**Controller Class**
+
++ Displays
+- show in table
+
+* Logic functions
+- calculate number of days left
+- validate the date
+- calculate percentage done
+
+* Inputs 
+- input the date 
+- input the type
+- input the classCode
+- input the ID
+- input description
+
+* Database
+- add in database
+- remove from database
+- edit database entry
+
+* Additional Files
+- info folder
+
+* Folder Managing
+- open relevant folder
+
+* File Managing
+- create file - with default text (template)
+- open file
+
+* Tagging
+- input tag
+- create tag
+- filtering system
+
+**Item Class**
+
+## Exams : 
+
+- (Common Things)
+- record study time
+- show calendar
+
+## Assignment : 
+
+- (Common Things)
+
+## Lab Report
+
+- (Common Things)
+
+## Homework
+
+- (Common Things)
+
+## Notes
+
+- (Common Things)
+
+## Outline
+
+- filepath
+- open file
+
+## Slides
+
+- open file
+- open md file for notes
+- TAGS in the md file that points to the part of the pdf
+- to make it easy to just click and it will go to that page ?
+
+---
+
+# Databases that we need
+
+- everything
+
+# @ TUI
+
+Using npyscreen, we can use their widgets
+
+--- 
+
+# @ How to open a TUI without clearing the background 
+
+https://stackoverflow.com/questions/35400904/how-to-popup-a-ncurses-widget-without-clearing-background

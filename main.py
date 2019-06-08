@@ -23,7 +23,7 @@ def mode_run(mode) :
 def exam_mode() :
     """ run the exam mode"""
 
-    # Welcome Text
+    # Welcome Text("exams_db.sqlite")
     text = "Are you ready for your exams ?"
     cprint(figlet_format(text, font="small"), "green", attrs=['bold'])
 
