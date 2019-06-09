@@ -12,3 +12,4 @@ Tue 04 Jun-06 2019 19:02:06
 Sat 08 Jun-06 2019 21:21:34
 * [ ] Put a box around the multilineText
 * [ ] Crash when we open form consicutively
+* [ ] how to assign the id of an item before inserting into the database

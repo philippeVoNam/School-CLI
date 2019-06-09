@@ -28,7 +28,7 @@ from blessings import Terminal
 
 
 # * USER IMPORTS
-from sql_helper import create_connection, create_exam, create_table, delete_exam, update_exam
+from sql_helper import create_connection, create_exam, create_table, delete_exam, update_exam, create_connection_db
 from StopWatch import stopwatch
 from SItemController import SItemController
 from Exam import Exam
@@ -153,14 +153,11 @@ class ExamController:
 
         controller = SItemController()
 
-        info = controller.input_form("exam")
+        # * Adding to the database
+        # Connecting to the database
+        # conn = create_connection_db(Exam)
 
-        conn = create_connection(self.database)
-        exam = Exam( info["classCode"], info["type"], info["date"], 1, 1)
-        controller.add(conn, exam)
-
-        conn.commit()
-        conn.close()
+        controller.create_item_db(Exam)
 
     def remove(self) : 
         """ """
@@ -194,6 +191,7 @@ class ExamController:
             # Saves the changes you made and quit
             conn.commit()
             conn.close()
+
         else :
             print("Operation Canceled.")
 
@@ -253,7 +251,7 @@ class ExamController:
             # Editing the specific data the user wants to edit
             quitFlag = False
             while quitFlag != True :
-                editQuestionAnswer = prompt(editQuestion, style=custom_style_2)
+                editQuestionAnswer = prompt(editQuself.id - idestion, style=custom_style_2)
                 
                 if editQuestionAnswer['item'] == 'Quit' :
                     quitFlag = True
@@ -359,6 +357,7 @@ class ExamController:
         delta = givenDate - currentDate
 
         return delta.days
+    # Input + add_db
 
     def date_validation(self, dateStr) : 
         """ checks if the date is valid """

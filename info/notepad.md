@@ -494,6 +494,7 @@ os.system("ranger " + filepath)
 ## Lab Report
 
 - (Common Things)
+- numbers to do (total)
 
 ## Homework
 
@@ -530,3 +531,30 @@ Using npyscreen, we can use their widgets
 # @ How to open a TUI without clearing the background 
 
 https://stackoverflow.com/questions/35400904/how-to-popup-a-ncurses-widget-without-clearing-background
+
+# @ Passing classes as arguments
+
+! You can pass classes as arguments to access the static variables they have. 
+
+# @ How to calculate the percentage done of something 
+
+Which item needs it : 
+- Assignments
+- Lab Reports
+- Homework
+
+Add an option to add a percentage done to these ones :
+ * work like boostnote
+ * at creation we put the number of total numbers to do
+
+ Assignments = numbers total to do
+ Homework = number total to do
+ Lab Reports = number of sections done 
+
+ shows a percentage bar in the table 
+
+homework init status to 0
+ask how many numbers are there = total
+each time you are doing homework, after finishing it, 
+Ask how many done, adds that to the current and calculates the percentage from that 
+

@@ -93,3 +93,79 @@ def update_exam(conn, id, classCode, type, date, daysLeft, studyTime):
 # data = cur.fetchall()
 
 # print(data)
+
+# ! new version here 
+
+def create_connection_db(itemDatabaseFile) :
+    """ create a database connection to the SQLite database
+        specified by db_file
+    :param db_file: database file
+    :return: Connection object or None
+    """
+    try:
+        conn = sqlite3.connect(itemDatabaseFile)
+        return conn
+    except sqlite3.Error as e:
+        print(e)
+ 
+    return None
+
+def add_item_db(conn, item) :
+    """
+    Create a new project into the projects table
+    :param conn:
+    :param project:
+    :return: project id
+    """
+    sql = item.addSqlCmd
+    cur = conn.cursor()
+    cur.execute(sql, item.itemList)
+    return cur.lastrowid
+
+def remove_item_db(conn, itemClass, id) :
+    """
+    Delete a task by task id
+    :param conn:  Connection to the SQLite database
+    :param id: id of the task
+    :return:
+    """
+    cur = conn.cursor()
+    cur.execute(itemClass.removeSqlCmd, (id,))
+
+def edit_item_db(conn, item) :
+    """
+    update priority, begin_date, and end date of a task
+    :param conn:
+    :param task:
+    :return: project id
+    """
+    cur = conn.cursor()
+    currentList = item.itemList + (id,)
+    cur.execute(item.editSqlCmd, currentList)
+
+def edit_item_db(conn, item) :
+    """
+    update priority, begin_date, and end date of a task
+    :param conn:
+    :param task:
+    :return: project id
+    """
+    cur = conn.cursor()
+    currentList = item.itemList + (id,)
+    cur.execute(item.editSqlCmd, currentList)
+
+def set_item_percentage_db(conn, item, percentage, currentNumbers, id) :
+    """
+    update priority, begin_date, and end date of a task
+    :param conn:
+    :param task:
+    :return: project id
+    """
+    cur = conn.cursor()
+    cur.execute(item.editPercentageSqlCmd, (percentage, currentNumbers, id))
+
+def get_item_attribute(conn, itemClass, attribute)
+
+    # cur = conn.cursor()
+    # sqlCmd = "SELECT " + attribute + " FROM " + itemClass. +" WHERE id=?"
+    # cur.execute("SELECT * FROM exams WHERE id=?", (id,))

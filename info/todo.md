@@ -15,3 +15,5 @@ Sat 01 Jun-06 2019 15:58:42
 
 Sat 08 Jun-06 2019 22:22:59
 * [ ] Add Tags for the FOrms 
+* [ ] Add edit functionality
+* [ ] Add the tables for the other items ... 
