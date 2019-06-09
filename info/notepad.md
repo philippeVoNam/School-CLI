@@ -153,12 +153,12 @@ Sat 01 Jun-06 2019 15:09:16
     - quitFlag = True
     - break
 
-- ans = Ask_input()
-- returns the string of what they want to edit
-- based on that, we know which ones we want to keep intact
-- must retrieve everything else
-- cur.execute("SELECT * FROM exams WHERE id=?", (6,))
-- data = cur.fetchall()
+- ans = Ask_input()Exam
+- returns the strinExamedit
+- based on that, weExamt to keep intact
+- must retrieve eveExam
+- cur.execute("SELEExamd=?", (6,))
+- data = cur.fetchaExam
 - print(data)
 - examInfo[ans] -> return the index
    questions = [

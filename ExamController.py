@@ -30,6 +30,8 @@ from blessings import Terminal
 # * USER IMPORTS
 from sql_helper import create_connection, create_exam, create_table, delete_exam, update_exam
 from StopWatch import stopwatch
+from SItemController import SItemController
+from Exam import Exam
 
 class ExamController:
     """
@@ -126,26 +128,37 @@ class ExamController:
 
     def add(self) : 
         """ """
-        print("add")
+        # print("add")
 
-        # * Get the information about the exam the user input
-        info = self.input_exam()
+        # # * Get the information about the exam the user input
+        # info = self.input_exam()
 
-        classCode = info["classCode"]
-        type = info["type"]
-        date = info["date"]
-        daysLeft = info["daysLeft"]
-        studyTime = info["studyTime"]
+        # classCode = info["classCode"]
+        # type = info["type"]
+        # date = info["date"]
+        # daysLeft = info["daysLeft"]
+        # studyTime = info["studyTime"]
 
-        # * Storing the data
-        # Connect to a database -> if does not exist -> create
+        # # * Storing the data
+        # # Connect to a database -> if does not exist -> create
+        # conn = create_connection(self.database)
+
+        # # Execution
+        # create_table(conn, 'CREATE TABLE IF NOT EXISTS exams (id INTEGER PRIMARY KEY, classCode VARCHAR, type VARCHAR, date VARCHAR, daysLeft VARCHAR, studyTime VARCHAR)')
+        # create_exam(conn,classCode, type, date, daysLeft, studyTime)
+
+        # # Saves the changes you made and quit
+        # conn.commit()
+        # conn.close()
+
+        controller = SItemController()
+
+        info = controller.input_form("exam")
+
         conn = create_connection(self.database)
+        exam = Exam( info["classCode"], info["type"], info["date"], 1, 1)
+        controller.add(conn, exam)
 
-        # Execution
-        create_table(conn, 'CREATE TABLE IF NOT EXISTS exams (id INTEGER PRIMARY KEY, classCode VARCHAR, type VARCHAR, date VARCHAR, daysLeft VARCHAR, studyTime VARCHAR)')
-        create_exam(conn,classCode, type, date, daysLeft, studyTime)
-
-        # Saves the changes you made and quit
         conn.commit()
         conn.close()
 

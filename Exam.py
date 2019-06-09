@@ -26,6 +26,15 @@ class Exam:
 
     """
 
+    # * Static Variables
+    # Default Attributes
+    headers = [['id','Class Code','Type', 'Date', 'Days Left', 'Study Time']]
+    title = "Exams"
+    dbFile = "exams_db.sqlite"
+    tableName = "exams"
+    addSqlCmd = ''' INSERT INTO exams(classCode, type, date, daysLeft, studyTime)
+              VALUES(?,?,?,?,?) '''
+
     def __init__(self, classCode, type, date, daysLeft, studyTime) : 
         """ constructor """
 
@@ -36,8 +45,4 @@ class Exam:
         self.daysLeft = daysLeft
         self.studyTime = studyTime
 
-        # Default Attributes
-        self.headers = ['id','Class Code','Type', 'Date', 'Days Left', 'Study Time']
-        self.title = "Exams"
-        self.dbFile = "exams_db.sqlite"
-        self.tableName = "exams"
+        self.itemList = (self.classCode, self.type, self.date, self.daysLeft, self.studyTime)
