@@ -42,7 +42,7 @@ class AssignmentForm(npyscreen.NPSApp):
        self.title   = self.F.add(npyscreen.TitleText, name='Title :')
        self.date        = self.F.add(npyscreen.TitleDateCombo, name='Date :')
        self.filePath = self.F.add(npyscreen.TitleFilenameCombo, name="Filepath :")
-       self.totalNumbers2Do = self.F.add(npyscreen.TitleText, name='Numbers to do :')
+       self.totalNumbers2Do = self.F.add(npyscreen.TitleText, name='How many # :')
        self.description = self.F.add(npyscreen.MultiLineEdit,
                           value = """# Author : Philippe Vo \n# Date : 
                           """,
@@ -54,11 +54,11 @@ class AssignmentForm(npyscreen.NPSApp):
     def get_form_info(self) :
         info = {
             "classCode": self.classCode.value,
-            "title": self.title,
-            "filepath": self.filePath,
+            "title": self.title.value,
+            "filepath": self.filePath.value,
             "date": self.date.value,
             "description": self.description.value,
-            "totalNumbers": self.totalNumbers2Do
+            "totalNumbers": self.totalNumbers2Do.value
         }
 
         return info

@@ -13,11 +13,12 @@ from examples import custom_style_2,custom_style_1
 # * imports for the PyInquirer
 from terminaltables import AsciiTable
 from termcolor import colored, cprint
+import os
 
 # * USER IMPORTS
 from sql_helper import create_connection, create_exam, create_table, delete_exam, update_exam
 from Forms import ExamForm, AssignmentForm, LabReportForm, HomeworkForm, NoteForm
-from sql_helper import create_connection_db, add_item_db, remove_item_db
+from sql_helper import create_connection_db, add_item_db, remove_item_db, get_item_attribute, create_table, set_item_percentage_db
 
 
 class SItemController:
@@ -154,6 +155,9 @@ class SItemController:
         # Connecting to the database
         conn = create_connection_db(item.databaseFile)
 
+        # Create table if it doesnt exist
+        create_table(conn, itemClass.createSqlCmd)
+
         # Add to database
         add_item_db(conn, item)
 
@@ -181,7 +185,7 @@ class SItemController:
         conn.commit()
         conn.close()
 
-    def modify_numbers_done(self) :
+    def modify_numbers_done(self, itemClass) :
         """ ask the user which item they want to modify the numbers did """
 
         # Show the table of specified item
@@ -203,21 +207,26 @@ class SItemController:
         answers = prompt(questions, style=custom_style_2)
         amount = answers['amount']
 
-        # Get the current number done and the total
-
-        # ! requires to get a specific attribute of an item
-
-        # Calculate the percentage
-
         # * Editing the Percentage 
         # Connecting to the database
         conn = create_connection_db(itemClass.databaseFile)
 
+        # Get the current number done and the total
+        currentNumber = get_item_attribute(conn, itemClass,"currentNumbers",id)
+        currentNumber = int(currentNumber) + int(amount)
 
+        totalNumber = get_item_attribute(conn, itemClass,"totalNumbers",id)
+        totalNumber = int(totalNumber)
 
+        # Calculating the percentage
+        percentage = self.calculate_percentage(currentNumber,totalNumber)
 
+        # Edit the percentage
+        set_item_percentage_db(conn, itemClass, percentage, currentNumber, id)
 
-
+        # * Exit from database
+        conn.commit()
+        conn.close()
 
     # * Logic Functions
     """ 
@@ -253,3 +262,25 @@ class SItemController:
             percentage = colored(str(percentage) + " %",'white', 'on_green', attrs=['bold'])
 
         return percentage 
+
+    # * File Managing
+    def view_file(self, itemClass) :
+        """ opens file in default program """
+
+        # Show the table of specified item
+        self.show_table(itemClass)
+
+        # Ask User for the id of the item they want to view
+        id = self.id_input()
+
+        # * View File
+        # Connecting to the database
+        conn = create_connection_db(itemClass.databaseFile)
+        # Get the filepath
+        filepath = get_item_attribute(conn, itemClass,"filepath",id)
+
+        print(filepath)
+
+        os.system("evince " + filepath)
+
+

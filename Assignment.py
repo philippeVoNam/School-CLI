@@ -7,6 +7,9 @@ Date : Tue 04 Jun-06 2019 19:17:37
 
 # * User imports
 from Forms import AssignmentForm
+from datetime import date, datetime
+from dateutil.parser import parse
+from termcolor import colored, cprint
 
 class Assignment:
     """
@@ -38,7 +41,7 @@ class Assignment:
     dbFile = "assignments_db.sqlite"
     tableName = "assignments"
     addSqlCmd = ''' INSERT INTO assignments(classCode, title, date, daysLeft, currentNumbers, totalNumbers, percentageDone, filepath)
-              VALUES(?,?,?,?,?,?) '''
+              VALUES(?,?,?,?,?,?,?,?) '''
     removeSqlCmd = 'DELETE FROM assignments WHERE id=?'
     editSqlCmd = ''' UPDATE assignments
                 SET classCode = ? ,
@@ -54,6 +57,7 @@ class Assignment:
                 SET percentageDone = ?,
                 currentNumbers = ?
                 WHERE id = ?'''
+    createSqlCmd = 'CREATE TABLE IF NOT EXISTS assignments (id INTEGER PRIMARY KEY, classCode VARCHAR, title VARCHAR, date VARCHAR, daysLeft VARCHAR, currentNumbers VARCHAR, totalNumbers VARCHAR, percentageDone VARCHAR, filepath VARCHAR)'
 
     # This is the database file where the exams info will be stored
     databaseFile = "assignments_db.sqlite"
@@ -77,7 +81,7 @@ class Assignment:
 
         else : # It's a New item
 
-            form = ExamForm()
+            form = AssignmentForm()
             form.run()
             info = form.get_form_info()
 
@@ -89,6 +93,24 @@ class Assignment:
             self.totalNumbers = info["totalNumbers"]
             self.currentNUmbers = 0
             self.percentageDone = 0
-            self.daysLeft = 0
+            self.daysLeft = self.days_left(self.date)
 
             self.itemList = (self.classCode, self.title, self.date, self.daysLeft, self.currentNUmbers, self.totalNumbers, self.percentageDone, self.filepath)
+
+    def days_left(self, givenDate) :
+        " Returns the number of days between the current date aand the given date "
+
+        currentDate = datetime.now().date()
+        daysLeft = givenDate - currentDate
+
+        # Find out how many days left and if less than 5 -> make it bright red
+        if daysLeft.days < 10 :
+            daysLeft = str(daysLeft.days)
+            daysLeft = colored(daysLeft,'white', 'on_red',attrs=['bold'])
+        else :
+            daysLeft = str(daysLeft.days)
+
+        return daysLeft
+    
+
+

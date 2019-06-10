@@ -47,6 +47,7 @@ class Exam:
                     daysLeft = ?,
                     studyTime = ?
                 WHERE id = ?'''
+    createSqlCmd = 'CREATE TABLE IF NOT EXISTS exams (id INTEGER PRIMARY KEY, classCode VARCHAR, type VARCHAR, date VARCHAR, daysLeft VARCHAR, studyTime VARCHAR)'
 
     # This is the database file where the exams info will be stored
     databaseFile = "exams_db.sqlite"
@@ -74,7 +75,22 @@ class Exam:
             self.classCode = info["classCode"]
             self.type = info["type"]
             self.date = info["date"]
-            self.daysLeft = 1
+            self.daysLeft = self.days_left(self.date)
             self.studyTime = 1
 
             self.itemList = (self.classCode, self.type, self.date, self.daysLeft, self.studyTime)
+
+    def days_left(self, givenDate) :
+        " Returns the number of days between the current date aand the given date "
+
+        currentDate = datetime.now().date()
+        daysLeft = givenDate - currentDate
+
+        # Find out how many days left and if less than 5 -> make it bright red
+        if daysLeft.days < 10 :
+            daysLeft = str(daysLeft.days)
+            daysLeft = colored(daysLeft,'white', 'on_red',attrs=['bold'])
+        else :
+            daysLeft = str(daysLeft)
+
+        return daysLeft

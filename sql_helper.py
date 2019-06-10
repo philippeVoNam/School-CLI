@@ -117,6 +117,7 @@ def add_item_db(conn, item) :
     :param project:
     :return: project id
     """
+    print(len(item.itemList))
     sql = item.addSqlCmd
     cur = conn.cursor()
     cur.execute(sql, item.itemList)
@@ -143,7 +144,7 @@ def edit_item_db(conn, item) :
     currentList = item.itemList + (id,)
     cur.execute(item.editSqlCmd, currentList)
 
-def edit_item_db(conn, item) :
+def set_item_percentage_db(conn, itemClass, percentage, currentNumbers, id) :
     """
     update priority, begin_date, and end date of a task
     :param conn:
@@ -151,21 +152,18 @@ def edit_item_db(conn, item) :
     :return: project id
     """
     cur = conn.cursor()
-    currentList = item.itemList + (id,)
-    cur.execute(item.editSqlCmd, currentList)
+    cur.execute(itemClass.editPercentageSqlCmd, (percentage, currentNumbers, id))
 
-def set_item_percentage_db(conn, item, percentage, currentNumbers, id) :
+def get_item_attribute(conn, itemClass, attribute, id) :
     """
-    update priority, begin_date, and end date of a task
+    get a single attribute from a item with id
     :param conn:
     :param task:
     :return: project id
     """
     cur = conn.cursor()
-    cur.execute(item.editPercentageSqlCmd, (percentage, currentNumbers, id))
+    sqlCmd = "SELECT " + attribute + " FROM " + itemClass.tableName +" WHERE id=?"
+    cur.execute(sqlCmd, (id,))
+    data = cur.fetchone()
 
-def get_item_attribute(conn, itemClass, attribute)
-
-    # cur = conn.cursor()
-    # sqlCmd = "SELECT " + attribute + " FROM " + itemClass. +" WHERE id=?"
-    # cur.execute("SELECT * FROM exams WHERE id=?", (id,))
+    return data[0]
