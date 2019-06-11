@@ -15,11 +15,17 @@ from Exam import Exam
 from ExamController import ExamController
 from SItemController import SItemController
 from Assignment import Assignment
+from LabReport import LabReport
 
 def mode_run(mode) :
     """ Depending on the mode that the user chooses """ 
 
-    switch={'Exams':exam_mode, 'Notes':notes_mode, 'Assignments':assignments_mode} # for some reason I cannot do like the mode_run I did for exam.py ...
+    switch={
+        'Exams':exam_mode, 
+        'Notes':notes_mode, 
+        'Assignments':assignments_mode,
+        'Lab Reports':labReports_mode
+        } # for some reason I cannot do like the mode_run I did for exam.py ...
     switch[mode]()
 
 def func_run(func, itemClass) :
@@ -32,7 +38,8 @@ def func_run(func, itemClass) :
         'Add':controller.create_item,
         'Remove':controller.delete_item,
         'Report Numbers Done': controller.modify_numbers_done,
-        'View': controller.view_file
+        'View File': controller.view_file,
+        'View Folder': controller.view_folder
         } # for some reason I cannot do like the mode_run I did for exam.py ...
     switch[func](itemClass)
 
@@ -97,7 +104,7 @@ def assignments_mode() :
             'Show',
             'Calendar',
             'Report Numbers Done',
-            'View',
+            'View File',
             Separator(),
             'Add',
             'Remove',
@@ -118,7 +125,42 @@ def assignments_mode() :
 
     print("Done assignment operations.")
 
+def labReports_mode() :
+    """ run the lab reports mode """
 
+    # Welcome Text
+    text = "Lab Reports"
+    cprint(figlet_format(text, font="small"), "green", attrs=['bold'])
+
+    questions = [
+    {
+        'type': 'list',
+        'name': 'mode',
+        'message': 'What do you want to do?',
+        'choices': [
+            Separator(),
+            'Show',
+            'Report Numbers Done',
+            'View Folder',
+            Separator(),
+            'Add',
+            'Remove',
+            'Edit',
+            Separator(),
+            'Exit'
+            ]
+        },
+    ]
+
+    while True :
+        answers = prompt(questions, style=custom_style_2)
+
+        if answers['mode'] == 'Exit' :
+            break
+
+        func_run(answers['mode'], LabReport)
+
+    print("Done assignment operations.")
 
 # * Main Function
 if __name__ == '__main__' : 
@@ -137,6 +179,7 @@ if __name__ == '__main__' :
             'Notes',
             'Exams',
             'Assignments',
+            'Lab Reports',
             'Exit'
             ]
         },

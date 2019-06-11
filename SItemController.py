@@ -279,8 +279,24 @@ class SItemController:
         # Get the filepath
         filepath = get_item_attribute(conn, itemClass,"filepath",id)
 
-        print(filepath)
-
         os.system("evince " + filepath)
 
+    # * Folder Managing
+    def view_folder(self, itemClass) :
+        #    """ open folder in ranger """
+
+            # Show the table of specified item
+            self.show_table(itemClass)
+
+            # Ask User for the id of the item they want to view
+            id = self.id_input()
+
+            # * View File
+            # Connecting to the database
+            conn = create_connection_db(itemClass.databaseFile)
+            # Get the folderpath
+            folderpath = get_item_attribute(conn, itemClass,"folderpath",id)
+
+            os.system("ranger " + folderpath)
+    # 
 

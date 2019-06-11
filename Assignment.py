@@ -48,8 +48,8 @@ class Assignment:
                     title = ?, 
                     date = ?,
                     daysLeft = ?,
-                    totalNumbers = ?,
-                    currentNumbers = ?,    
+                    currentNumbers = ?,
+                    totalNumbers = ?,    
                     percentageDone= ?,                
                     filepath = ?
                 WHERE id = ?'''
@@ -62,7 +62,7 @@ class Assignment:
     # This is the database file where the exams info will be stored
     databaseFile = "assignments_db.sqlite"
 
-    def __init__(self,classCode = "", title="", filePath="", date="", daysLeft="",description="", totalNUmbers="", currentNumbers="", new = True) : 
+    def __init__(self,classCode = "", title="", filePath="", date="", daysLeft="",description="", totalNumbers="", currentNumbers="", new = True) : 
     # def __init__(self, id = -1, new = True) : 
         """ constructor """
 

@@ -14,6 +14,7 @@ Sat 01 Jun-06 2019 15:58:42
 * [ ] add the study time functionality ... -> guide in random/stopwatch.py
 
 Sat 08 Jun-06 2019 22:22:59
-* [ ] Add Tags for the FOrms 
+* [ ] Add Tags for the Forms 
 * [ ] Add edit functionality
 * [ ] Add the tables for the other items ... 
+* [ ] Re-do the Exam part
