@@ -50,6 +50,9 @@ def exam_mode() :
     text = "Are you ready for your exams ?"
     cprint(figlet_format(text, font="small"), "green", attrs=['bold'])
 
+    # Exam Show - then as for next mode
+    func_run("Show", Exam)
+
     questions = [
     {
         'type': 'list',
@@ -76,6 +79,7 @@ def exam_mode() :
         if answers['mode'] == 'Exit' :
             break
 
+        # Run func
         func_run(answers['mode'], Exam)
 
     print("Done exam operations.")
@@ -93,6 +97,9 @@ def assignments_mode() :
     # Welcome Text
     text = "Assignment"
     cprint(figlet_format(text, font="small"), "green", attrs=['bold'])
+
+     # Exam Show - then as for next mode
+    func_run("Show", Assignment)
 
     questions = [
     {
@@ -121,6 +128,7 @@ def assignments_mode() :
         if answers['mode'] == 'Exit' :
             break
 
+        # Run func
         func_run(answers['mode'], Assignment)
 
     print("Done assignment operations.")
@@ -131,6 +139,9 @@ def labReports_mode() :
     # Welcome Text
     text = "Lab Reports"
     cprint(figlet_format(text, font="small"), "green", attrs=['bold'])
+
+    # Exam Show - then as for next mode
+    func_run("Show", LabReport)
 
     questions = [
     {
@@ -158,6 +169,7 @@ def labReports_mode() :
         if answers['mode'] == 'Exit' :
             break
 
+        # Run func
         func_run(answers['mode'], LabReport)
 
     print("Done assignment operations.")

@@ -146,7 +146,6 @@ class SItemController:
 
         # * Creating item
         # Creating input and getting the answer
-
         item = itemClass(new = True)
 
         print(type(item))
@@ -169,7 +168,7 @@ class SItemController:
         """ ask user which item they want to delete """
 
         # Show the table of specified item
-        self.show_table(itemClass)
+        # self.show_table(itemClass)
 
         # Ask User for the id of the item they want to remove 
         id = self.id_input()
@@ -189,7 +188,7 @@ class SItemController:
         """ ask the user which item they want to modify the numbers did """
 
         # Show the table of specified item
-        self.show_table(itemClass)
+        # self.show_table(itemClass)
 
         # Ask User for the id of the item they want to update 
         id = self.id_input()
@@ -268,7 +267,7 @@ class SItemController:
         """ opens file in default program """
 
         # Show the table of specified item
-        self.show_table(itemClass)
+        # self.show_table(itemClass)
 
         # Ask User for the id of the item they want to view
         id = self.id_input()
@@ -285,18 +284,18 @@ class SItemController:
     def view_folder(self, itemClass) :
         #    """ open folder in ranger """
 
-            # Show the table of specified item
-            self.show_table(itemClass)
+        # Show the table of specified item
+        # self.show_table(itemClass)
 
-            # Ask User for the id of the item they want to view
-            id = self.id_input()
+        # Ask User for the id of the item they want to view
+        id = self.id_input()
 
-            # * View File
-            # Connecting to the database
-            conn = create_connection_db(itemClass.databaseFile)
-            # Get the folderpath
-            folderpath = get_item_attribute(conn, itemClass,"folderpath",id)
+        # * View File
+        # Connecting to the database
+        conn = create_connection_db(itemClass.databaseFile)
+        # Get the folderpath
+        folderpath = get_item_attribute(conn, itemClass,"folderpath",id)
 
-            os.system("ranger " + folderpath)
+        os.system("ranger " + folderpath)
     # 
 
