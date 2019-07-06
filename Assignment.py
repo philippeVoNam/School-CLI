@@ -59,6 +59,9 @@ class Assignment:
                 WHERE id = ?'''
     createSqlCmd = 'CREATE TABLE IF NOT EXISTS assignments (id INTEGER PRIMARY KEY, classCode VARCHAR, title VARCHAR, date VARCHAR, daysLeft VARCHAR, currentNumbers VARCHAR, totalNumbers VARCHAR, percentageDone VARCHAR, filepath VARCHAR)'
 
+    # Edit String List
+    editStringList = ["classCode", "title", "date", "currentNumbers", "filepath"]
+
     # This is the database file where the exams info will be stored
     databaseFile = "assignments_db.sqlite"
 

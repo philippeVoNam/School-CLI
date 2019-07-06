@@ -127,7 +127,8 @@ class NoteForm(npyscreen.NPSApp):
        self.classCode   = self.F.add(npyscreen.TitleText, name='Class Code :')
        self.title   = self.F.add(npyscreen.TitleText, name='Title :')
        self.date        = self.F.add(npyscreen.TitleDateCombo, name='Date :')
-       self.filePath = self.F.add(npyscreen.TitleFilenameCombo, name="Filepath :")
+       self.filePath = self.F.add(npyscreen.TitleFilenameCombo, name="FolderPath :")
+       # TODO -> be able to specify the Folderpath where the notes are stored 
        self.description = self.F.add(npyscreen.MultiLineEdit,
                           value = """# Author : Philippe Vo \n# Date : 
                           """,

@@ -54,6 +54,9 @@ class Exam:
     # This is the database file where the exams info will be stored
     databaseFile = "exams_db.sqlite"
 
+    # Edit Item List
+    editStringList = ["classCode", "type", "date"]
+
     def __init__(self,classCode = "", type="", date="", daysLeft="", studyTime="", new = True) : 
     # def __init__(self, id = -1, new = True) : 
         """ constructor """
@@ -75,14 +78,15 @@ class Exam:
             info = form.get_form_info()
 
             self.classCode = info["classCode"]
-            self.type = info["type"]
+            self.type = self.type_color(info["type"])
             self.date = info["date"]
             self.daysLeft = self.days_left(self.date)
-            self.studyTime = 1
+            self.studyTime = '00:00:00'
 
             self.itemList = (self.classCode, self.type, self.date, self.daysLeft, self.studyTime)
 
-    def days_left(self, givenDate) :
+    @staticmethod
+    def days_left(givenDate) :
         " Returns the number of days between the current date aand the given date "
 
         currentDate = datetime.now().date()
@@ -96,3 +100,18 @@ class Exam:
             daysLeft = str(daysLeft)
 
         return daysLeft
+
+    def type_color(self, type) :
+        """ depending on the type, convert into appropriate color"""
+
+        # Find out what is the type and give it a color for it 
+        if type == "Assignment" :
+            type = colored(type,'white')
+        elif type == "Lab Report" :
+            type = colored(type,'green')
+        elif type == "Midterm" :
+            type = colored(type,'yellow')
+        elif type == "Final Exam" :
+            type = colored(type,'red')
+
+        return type

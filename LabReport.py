@@ -4,7 +4,6 @@ Date : Tue 04 Jun-06 2019 19:17:37
 """
 
 # * Imports
-
 # * User imports
 from Forms import LabReportForm
 # * 3rd party imports
@@ -66,6 +65,9 @@ class LabReport:
 
     # Lab report Folderpath
     folderName = "/home/namv/Documents/Knowledge/Coding/CLI_Apps/School_CLI/Labs"
+
+    # Edit String List
+    editStringList = ["classCode", "title", "date", "folderpath", "currentNumbers"]
 
     def __init__(self,classCode = "", title="", folderpath="", date="", daysLeft="",description="", totalNumbers="", currentNumbers="", new = True) : 
     # def __init__(self, id = -1, new = True) : 

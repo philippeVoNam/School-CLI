@@ -322,7 +322,6 @@ class ExamController:
         # Start the stopwatch        
         currentTime = stopwatch()
         currentTime = datetime.timedelta(seconds=round(currentTime)) # convert float to time obj
-        print(currentTime)
 
         # Retrieve the study time of the given id 
         conn = create_connection(self.database)
@@ -346,6 +345,7 @@ class ExamController:
                     id = ?'''
         cur.execute(sql, (totalTime,id))
 
+        # Closing the database
         conn.commit()
         conn.close()
 

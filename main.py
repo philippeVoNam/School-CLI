@@ -16,6 +16,7 @@ from ExamController import ExamController
 from SItemController import SItemController
 from Assignment import Assignment
 from LabReport import LabReport
+from Note import Note
 
 def mode_run(mode) :
     """ Depending on the mode that the user chooses """ 
@@ -33,19 +34,24 @@ def func_run(func, itemClass) :
 
     controller = SItemController()
 
+    # * Create Database if not there yet
+    controller.create_db(itemClass)
+
     switch={
         'Show':controller.show_table,
         'Add':controller.create_item,
         'Remove':controller.delete_item,
         'Report Numbers Done': controller.modify_numbers_done,
         'View File': controller.view_file,
-        'View Folder': controller.view_folder
+        'View Folder': controller.view_folder,
+        'Calendar': controller.show_calendar,
+        'Record Study Time': controller.record_study_time,
+        "Edit": controller.edit_item,
         } # for some reason I cannot do like the mode_run I did for exam.py ...
     switch[func](itemClass)
 
 def exam_mode() :
     """ run the exam mode"""
-
     # Welcome Text("exams_db.sqlite")
     text = "Are you ready for your exams ?"
     cprint(figlet_format(text, font="small"), "green", attrs=['bold'])
@@ -90,6 +96,39 @@ def notes_mode() :
     # Welcome Text
     text = "Yeah, welcome to the club, pal."
     cprint(figlet_format(text, font="small"), "green", attrs=['bold'])
+
+    # Exam Show - then as for next mode
+    func_run("Show", Note)
+
+    questions = [
+    {
+        'type': 'list',
+        'name': 'mode',
+        'message': 'What do you want to do?',
+        'choices': [
+            Separator(),
+            'Show',
+            'View Folder',
+            Separator(),
+            'Add',
+            'Remove',
+            'Edit',
+            Separator(),
+            'Exit'
+            ]
+        },
+    ]
+
+    while True :
+        answers = prompt(questions, style=custom_style_2)
+
+        if answers['mode'] == 'Exit' :
+            break
+
+        # Run func
+        func_run(answers['mode'], Note)
+
+    print("Done assignment operations.")
 
 def assignments_mode() :
     """ run the assignments mode """
@@ -187,7 +226,6 @@ if __name__ == '__main__' :
         'name': 'mode',
         'message': 'What do you want to do?',
         'choices': [
-            'Homework',
             'Notes',
             'Exams',
             'Assignments',

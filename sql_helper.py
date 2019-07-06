@@ -133,7 +133,7 @@ def remove_item_db(conn, itemClass, id) :
     cur = conn.cursor()
     cur.execute(itemClass.removeSqlCmd, (id,))
 
-def edit_item_db(conn, item) :
+def edit_item_db(conn, item, itemList) :
     """
     update priority, begin_date, and end date of a task
     :param conn:
@@ -167,3 +167,15 @@ def get_item_attribute(conn, itemClass, attribute, id) :
     data = cur.fetchone()
 
     return data[0]
+
+def set_item_attribute(conn, itemClass, attribute, value, id) :
+    """
+    get a single attribute from a item with id
+    :param conn:
+    :param task:
+    :return: project id
+    """
+    cur = conn.cursor()
+    sqlCmd = "SELECT " + attribute + " FROM " + itemClass.tableName + " WHERE id=?"
+    sqlCmd = "UPDATE " + itemClass.tableName + " SET " + attribute + " = ? " + " WHERE id=?"
+    cur.execute(sqlCmd, (value,id))

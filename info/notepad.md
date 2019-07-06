@@ -844,3 +844,48 @@ ask how many numbers are there = total
 each time you are doing homework, after finishing it, 
 Ask how many done, adds that to the current and calculates the percentage from that 
 
+# @ How to edit some stuff
+
+- itemClass 
+-> ask which attribute to change
+-> with the attribute 
+-> with the id 
+
+- uset the set_item_attribute
+
+# @ Notes
+
+Notes :
+- classCode
+- chapter
+- importance
+- notesFilePath
+- tags
+- description
+- percentageCompletion
+- image files 
+- be able to group them together
+
+# @ Homework
+
+Homework :
+- classCode
+- chapter
+- importance
+- notesFilePath
+- tags
+- description
+- percentageCompletion
+- image files 
+- be able to group them together
+  
+# @ Deliverables 
+
+Def : elements that have a due date
+- homework
+- exams
+- assignment
+- lab reports
+
+Function :
+- sort by due date
