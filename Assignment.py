@@ -100,7 +100,8 @@ class Assignment:
 
             self.itemList = (self.classCode, self.title, self.date, self.daysLeft, self.currentNUmbers, self.totalNumbers, self.percentageDone, self.filepath)
 
-    def days_left(self, givenDate) :
+    @staticmethod
+    def days_left(givenDate) :
         " Returns the number of days between the current date aand the given date "
 
         currentDate = datetime.now().date()

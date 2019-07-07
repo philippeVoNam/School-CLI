@@ -889,3 +889,26 @@ Def : elements that have a due date
 
 Function :
 - sort by due date
+
+# @ Update days_left
+
+everytime app starts, it will look into all the databases with days left and update them depending on the day 
+
+double for loop
+
+for file : 
+    for item in file :
+        
+```python 
+for row in cur.execute('SELECT * FROM tableName' ):
+    # get the due date
+    
+    # get the current date
+
+    # calculate the daysLeft
+
+    # update table 
+    cur2.execute('''UPDATE tableName SET daysLeft = ? WHERE id= ?''', (variable, id))
+
+    # close table
+```

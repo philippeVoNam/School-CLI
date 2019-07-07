@@ -245,16 +245,25 @@ class SItemController:
             date = answers["itemValue"]
             
             # Calculate the days left needed
-            date = str(datetime.datetime.strptime(date, '%Y-%m-%d').date()) # converts string date into a date obj
+            date = datetime.datetime.strptime(date, '%Y-%m-%d').date() # converts string date into a date obj
             daysLeft = itemClass.days_left(date)
+
+            # TODO -> ERROR : daysLeft in color not good with the sql execute command -> not sure why + not updating the table ... 
+            editSqlCmd = "UPDATE " + itemClass.tableName + " SET " + itemString + " = ? " + ", daysLeft = ? WHERE id = ?"
+            cur = conn.cursor()
+            cur.execute(editSqlCmd, (str(date), daysLeft, id))
 
         elif itemString == "currentNumbers" :
             # Asking for currentNumber 
             answers = prompt(itemValQuestion, style=custom_style_2)
-            currentNumber = answers["itemValue"]
+            currentNumber = int(answers["itemValue"])
 
             # Calculate the percentage 
-            # TODO Calculate the percentage 
+            # TODO Calculate the percentage
+            cur = conn.cursor()
+            cur.execute('SELECT totalNumbers FROM ' + itemClass.tableName + " WHERE id = " + str(id))
+            totalNumbers = int(cur.fetchone()[0])
+            percentage = self.calculate_percentage(currentNumber,totalNumbers)
 
         elif itemString == "folderpath" or itemString == "filepath" :
             # Show folder explorer to get folderpath
@@ -263,10 +272,18 @@ class SItemController:
             app = QApplication(sys.argv)
             folderpath = QFileDialog.getExistingDirectory()
 
+            editSqlCmd = "UPDATE " + itemClass.tableName + " SET " + itemString + " = ? "  + " WHERE id = ?"
+            cur = conn.cursor()
+            cur.execute(editSqlCmd, (folderpath, id))
+    
+
         else :
             # Asking for Value 
             answers = prompt(itemValQuestion, style=custom_style_2)
             itemValue = answers["itemValue"]
+            editSqlCmd = "UPDATE " + itemClass.tableName + " SET " + itemString + " = ? "  + " WHERE id = ?"
+            cur = conn.cursor()
+            cur.execute(editSqlCmd, (itemValue, id))
     
         # ! IF EDIT DATE -> AUTOMATICALLY UPDATE DAYS_LEFTIC -> PERCEnTAGE CHANGE 
         # ! ID EDIT CURRENT_NUMBERS -> UPDATE PECENTAGE
@@ -279,7 +296,11 @@ class SItemController:
 
         # * User can then modify the form to make their changes and then change 
 
-        # * pass the update itemlist 
+        # * pass the update itemlist
+
+        # * Exit from database
+        conn.commit()
+        conn.close()
 
     def modify_numbers_done(self, itemClass) :
         """ ask the user which item they want to modify the numbers did """
@@ -424,5 +445,42 @@ class SItemController:
         folderpath = get_item_attribute(conn, itemClass,"folderpath",id)
 
         os.system("ranger " + folderpath)
-    # 
 
+    # * Update whole tables
+    def update_daysLeft(self, itemClasses) :
+        """ goes over all the tables with daysLeft and update them depending on the current date """
+        # iterate over the tables
+        files = ["assignments_db.sqlite", "labreports_db.sqlite", "exams_db.sqlite"]
+        tableNames = ["assignments", "labreports", "exams"]
+
+        # ! expecting -> itemClasses = [Assignment, LabReport, Exam]
+
+        # iterate over the itemClass
+
+        for itemClass in itemClasses :
+            
+            # * Adding to the database
+            # Connecting to the database
+            conn = create_connection_db(itemClass.databaseFile)
+            cur = conn.cursor()
+
+            print(itemClass.tableName)
+
+            for row in cur.execute('SELECT date, id FROM ' + itemClass.tableName):
+                days = 0
+
+                # TODO -> Getting a weird error of "NoteType" -> but the date is there ???
+                # get the due date
+                date = cur.fetchone()[0]
+                id = cur.fetchone()[1]
+                print(date)
+                dueDate = datetime.datetime.strptime(date, '%Y-%m-%d').date() # converts string date into a date obj
+
+                # calculate the daysLeft
+                daysLeft = itemClass.days_left(dueDate)
+                print(daysLeft)
+
+                # update table 
+                # cur.execute("UPDATE " + itemClass.tableName + " SET daysLeft = ? WHERE id= ?", (daysLeft, id))
+
+                # close table

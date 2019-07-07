@@ -83,6 +83,8 @@ class Exam:
             self.daysLeft = self.days_left(self.date)
             self.studyTime = '00:00:00'
 
+            print("working : ", self.daysLeft)
+
             self.itemList = (self.classCode, self.type, self.date, self.daysLeft, self.studyTime)
 
     @staticmethod
@@ -97,7 +99,7 @@ class Exam:
             daysLeft = str(daysLeft.days)
             daysLeft = colored(daysLeft,'white', 'on_red',attrs=['bold'])
         else :
-            daysLeft = str(daysLeft)
+            daysLeft = str(daysLeft.days)
 
         return daysLeft
 

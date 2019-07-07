@@ -18,3 +18,6 @@ Sat 08 Jun-06 2019 22:22:59
 * [ ] Add edit functionality
 * [ ] Add the tables for the other items ... 
 * [ ] Re-do the Exam part
+
+Sun 07 Jul-07 2019 13:50:20
+* [ ] Everytime app starts -> all the "days_left" should be updated !!!
