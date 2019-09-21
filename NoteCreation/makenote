@@ -9,6 +9,7 @@ import argparse
 import os
 import sys
 from datetime import date, datetime
+import subprocess
 
 # * Code
 # CLI Parser
@@ -35,7 +36,7 @@ now = datetime.now()
 dateTimeStr = now.strftime("%b-%d-%Y %H:%M:%S")
 
 # Filename
-filename = dateStr + "-" + noteType + ".md"
+filename = dateStr.upper() + "-" + noteType + ".md"
 
 # Section headings
 headerOne = "# " + noteType + " Notes" + "\n"
@@ -64,3 +65,5 @@ noteFile.write(newLine)
 noteFile.write(newLine)
 noteFile.write(importantSection)
 
+# running vscode
+subprocess.run(["code", "."])
