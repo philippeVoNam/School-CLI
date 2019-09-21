@@ -275,7 +275,6 @@ class SItemController:
             editSqlCmd = "UPDATE " + itemClass.tableName + " SET " + itemString + " = ? "  + " WHERE id = ?"
             cur = conn.cursor()
             cur.execute(editSqlCmd, (folderpath, id))
-    
 
         else :
             # Asking for Value 

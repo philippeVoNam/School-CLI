@@ -219,7 +219,7 @@ if __name__ == '__main__' :
     # Updating the daysLeft for the tables
     controller = SItemController() 
 
-    controller.update_daysLeft([Exam])
+    # controller.update_daysLeft([Exam])
 
     # Welcome Text
     text = "What is my purpose ? - You take Notes - OH . MY . GOD"
