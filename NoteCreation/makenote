@@ -17,6 +17,7 @@ parser = argparse.ArgumentParser()
 group = parser.add_mutually_exclusive_group()
 group.add_argument("-r", "--room", action="store_true")
 group.add_argument("-i", "--inclass", action="store_true")
+group.add_argument("-t", "--tutorial", action="store_true")
 args = parser.parse_args()
 
 # * Init all the setup variables
@@ -25,6 +26,8 @@ if args.room:
     noteType = "Room"
 elif args.inclass:
     noteType = "InClass"
+elif args.tutorial:
+    noteType = "Tutorial"
 else :
     noteType = "Default"
 
@@ -40,6 +43,8 @@ filename = dateStr.upper() + "-" + noteType + ".md"
 
 # Section headings
 headerOne = "# " + noteType + " Notes" + "\n"
+classStr = "class : \n"
+slideStr = "slide : \n"
 noteSection = "## Notes \n"
 questionSection = "## Questions \n"
 importantSection = "## Important \n"
@@ -56,6 +61,9 @@ noteFile = open(filename, "w+")
 noteFile.write(headerOne)
 noteFile.write(dateTimeStr)
 noteFile.write(newLine)
+noteFile.write(newLine)
+noteFile.write(classStr)
+noteFile.write(slideStr)
 noteFile.write(newLine)
 noteFile.write(noteSection)
 noteFile.write(newLine)
